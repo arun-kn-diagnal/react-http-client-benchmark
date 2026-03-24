@@ -23,10 +23,10 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
       parsing.push(endParseTime - startParseTime);
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
-      console.log(latency);
+      // console.log(latency);
       success++;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
       failed++;
