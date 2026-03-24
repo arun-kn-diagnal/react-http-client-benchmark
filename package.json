@@ -1,0 +1,38 @@
+{
+  "name": "react-http-client-benchmark",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -f dist/http.client.app_1.0.0_all.ipk && rm -rf LG-Build/assets tizenProject/assets && tsc -b && vite build && cp -rf dist/assets LG-Build/assets && cp dist/index.html LG-Build/index.html && cp -rf dist/assets tizenProject/assets && cp dist/index.html tizenProject/index.html",
+    "tizen-run":"tz run -r -w tizenProject",
+    "tizen-build":"export PATH=$PATH:/home/diagnal/tizen-studio/tools/tizen-core && tz build -w tizenProject && tz pack -w tizenProject",
+    "LG-run":"LG-emulator/Image.appimage",
+    "LG-build":"ares-package --no-minify -o dist LG-Build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-legacy": "^8.0.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "vite-plugin-babel": "^1.6.0",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.0",
+    "vite": "^8.0.1"
+  }
+}
