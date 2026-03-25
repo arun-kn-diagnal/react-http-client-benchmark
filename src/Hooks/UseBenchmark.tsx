@@ -1,7 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+interface BenchmarkResult {
+  iteration: number;
+  errorRate: number;
+  throughput: number;
+  avgParseTime: number;
+  avglatency: number;
+  success: number;
+  failed: number;
+}
 
-const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurrent = 5 } = {}) => {
+const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurrent = 5 } = {}): Promise<BenchmarkResult> => {
   let success = 0,
     failed = 0,
     active = 0,
@@ -17,12 +24,13 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     }
     try {
       const res = await fun;
-      const startParseTime = performance.now();
-      const data = res.data;
-      const endParseTime = performance.now();
-      parsing.push(endParseTime - startParseTime);
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
+      const startParseTime = performance.now();
+      //@ts-ignore
+      const data = typeof res.data === "string" ? JSON.parse(res.data) : res.data;
+      const endParseTime = performance.now();
+      parsing.push(endParseTime - startParseTime);
       // console.log(latency);
       success++;
     } catch (error) {
