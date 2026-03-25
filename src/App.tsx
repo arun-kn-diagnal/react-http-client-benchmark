@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import AxiosService from "./Services/AxiosService";
 import GetBenchmarkMetrics from "./Hooks/UseBenchmark";
 import kyService from "./Services/kyService";
@@ -6,10 +7,98 @@ import { rtkApi } from "./Services/rtkqService";
 import RedAxiosService from "./Services/RedAxiosService";
 
 import WretchService from "./Services/WretchService";
-import GetBenchmarkMetricsFetch from "./Hooks/UseBenchmarkFetch";
-// import { useEffect } from "react";
 
+import { FocusContext, init, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
+import { useEffect } from "react";
+import FetchService from "./Services/FetchService";
+// import { useEffect } from "react";
+init({ debug: false, visualDebug: false });
 const App = () => {
+  const { ref } = useFocusable({ trackChildren: true });
+  const btn1 = useFocusable({
+    onEnterPress: () => {
+      runKy();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn2 = useFocusable({
+    onEnterPress: () => {
+      runAxios();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn3 = useFocusable({
+    onEnterPress: () => {
+      runRTKQ();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn4 = useFocusable({
+    onEnterPress: () => {
+      runXml();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn5 = useFocusable({
+    onEnterPress: () => {
+      runRedAxios();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn6 = useFocusable({
+    onEnterPress: () => {
+      runFetch();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn7 = useFocusable({
+    onEnterPress: () => {
+      runWretch();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
   const [trigger] = rtkApi.useLazyGetMoviesQuery();
 
   const runAxios = async () => {
@@ -39,38 +128,59 @@ const App = () => {
     const res = await GetBenchmarkMetrics(rtkTask(), { iteration: 50, concurrent: 10 });
     console.table(res);
   };
-  
-  const runRedAxios=async()=>{
-     const res = await GetBenchmarkMetrics(RedAxiosService(), { iteration: 50, concurrent: 10 });
-    console.table(res);
-  }
-   const runFetch=async()=>{
-     const res = await GetBenchmarkMetricsFetch( { iteration: 50, concurrent: 10 });
-    console.table(res);
-  }
-  const runWretch=async()=>{
-     const res = await GetBenchmarkMetrics(WretchService(), { iteration: 50, concurrent: 10 });
-    console.table(res);
-  }
 
+  const runRedAxios = async () => {
+    console.log("Starting redAxios Benchmark...");
+    const res = await GetBenchmarkMetrics(RedAxiosService(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+  const runFetch = async () => {
+    console.log("Starting fetch Benchmark...");
+    const res = await GetBenchmarkMetrics(FetchService(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+  const runWretch = async () => {
+    console.log("Starting wretch Benchmark...");
+    const res = await GetBenchmarkMetrics(WretchService(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+  useEffect(() => {
+    btn1.focusSelf();
+  }, []);
   // useEffect(()=>{
   //   const runAxios=async()=>{
   //     const res=await GetBenchmarkMetrics(AxiosService(),{iteration:50,concurrent:10})
   //     console.table(res);
   //   }
-    
+
   //   runAxios();
   //   runKy();
   // },[])
   return (
-    <div style={{ padding: "20px", display: "flex", gap: "10px" }}>
-        <button onClick={runKy}>Run Ky</button>
-        <button onClick={runAxios}>Run Axios</button>
-        <button onClick={runRTKQ}>Run RTK Query</button>
-        <button onClick={runXml}>Run XMLHttpRequest</button>
-        <button onClick={runRedAxios}>RedAxios</button>
-        <button onClick={runFetch}>Fetch</button>
-        <button onClick={runWretch}>Wretch</button>
+    <div ref={ref} style={{ padding: "20px", display: "flex", gap: "10px" }}>
+      <FocusContext.Provider value="SN:ROOT">
+        <button ref={btn1.ref} onClick={runKy}>
+          Run Ky
+        </button>
+        <button ref={btn2.ref} onClick={runAxios}>
+          Run Axios
+        </button>
+        <button ref={btn3.ref} onClick={runRTKQ}>
+          Run RTK Query
+        </button>
+        <button ref={btn4.ref} onClick={runXml}>
+          Run XMLHttpRequest
+        </button>
+        <button ref={btn5.ref} onClick={runRedAxios}>
+          RedAxios
+        </button>
+        <button ref={btn6.ref} onClick={runFetch}>
+          Fetch
+        </button>
+        <button ref={btn7.ref} onClick={runWretch}>
+          Wretch
+        </button>
+      </FocusContext.Provider>
     </div>
   );
 };
