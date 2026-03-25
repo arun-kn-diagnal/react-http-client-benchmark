@@ -5,6 +5,9 @@ import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
   base: './',
+  optimizeDeps: {
+    include: ['react-redux'],
+  },
   plugins: [
     react(),
     babel({
