@@ -1,3 +1,4 @@
+
 interface BenchmarkResult {
   iteration: number;
   errorRate: number;
@@ -13,35 +14,53 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     failed = 0,
     active = 0,
     maxconcurrent = 0;
+
   const latency: number[] = [],
     parsing: number[] = [];
+
   const start = performance.now();
+
   const reqStart = async () => {
-    const reqStartTime = performance.now();
     active++;
-    if (active > maxconcurrent) {
-      maxconcurrent = active;
-    }
+    if (active > maxconcurrent) maxconcurrent = active;
+
+    const reqStartTime = performance.now();
     try {
-      const res = await fun;
+      const response = await fun;
+      if(response===""){
+        throw "error"
+      }
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
-      const startParseTime = performance.now();
-      //@ts-ignore
-      const data = typeof res.data === "string" ? JSON.parse(res.data) : res.data;
-      const endParseTime = performance.now();
-      parsing.push(endParseTime - startParseTime);
-      // console.log(latency);
+
+      let data;
+      
+      if (response && typeof response.json === "function") {
+        const startParseTime = performance.now();
+        data = await response.json();
+        const endParseTime = performance.now();
+        parsing.push(endParseTime - startParseTime);
+      } else if (typeof response.data === "string") {
+        console.log(typeof response)
+        const startParseTime = performance.now();
+        data = JSON.parse(response.data);
+        const endParseTime = performance.now();
+        parsing.push(endParseTime - startParseTime);
+      } else {
+        data = response;
+      }
+
       success++;
     } catch (error) {
-      // console.log(error);
       const reqEndTime = performance.now();
+
       latency.push(reqEndTime - reqStartTime);
       failed++;
     } finally {
       active--;
     }
   };
+
   const batches = Math.ceil(iteration / concurrent);
   for (let i = 0; i < batches; i++) {
     const promises = [];
@@ -52,6 +71,7 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     }
     await Promise.all(promises);
   }
+
   const end = performance.now();
   const totalTime = end - start;
   const throughput = iteration / totalTime;
@@ -68,6 +88,7 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     failed,
   };
 };
+
 export default GetBenchmarkMetrics;
 // export const PrintBenchmarks = async () => {
 //   const result = await GetBenchmarkMetrics({ iteration: 5, concurrent: 2 });

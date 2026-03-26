@@ -7,7 +7,7 @@ const XmlService = () => {
     
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve({ data: JSON.parse(xhr.responseText) });
+        resolve({ data: xhr.responseText });
       } else {
         reject(new Error(`XHR Error: ${xhr.status}`));
       }

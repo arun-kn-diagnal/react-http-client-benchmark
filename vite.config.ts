@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import babel from 'vite-plugin-babel'
 import legacy from '@vitejs/plugin-legacy'
-
+import { visualizer } from 'rollup-plugin-visualizer';
 export default defineConfig({
   base: './',
   optimizeDeps: {
@@ -10,6 +10,13 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    visualizer({
+      filename: './dist/report.html',
+      template: 'treemap', 
+      gzipSize: true,
+      brotliSize: true,
+
+    }),
     babel({
       babelConfig: {
         presets: [['@babel/preset-env', { modules: false }]],
