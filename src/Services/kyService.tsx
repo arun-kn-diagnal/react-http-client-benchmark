@@ -1,11 +1,15 @@
 import ky from "ky";
 
 
-const kyService = async () =>{
+export const kyServiceNoparse = async () =>{
     const res = await ky.get(
         "https://api-entertainment-v1.enlight.diagnal.com/content/filters/KIDS-AND-FAMILY?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web"
     );
     return res;
 }
-
-export default kyService;
+export const kyService= async () =>{
+    const res = await ky.get(
+        "https://api-entertainment-v1.enlight.diagnal.com/content/filters/KIDS-AND-FAMILY?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web"
+    ).json();
+    return res;
+}

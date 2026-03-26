@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/refs */
-import AxiosService from "./Services/AxiosService";
+
 import GetBenchmarkMetrics from "./Hooks/UseBenchmark";
-import kyService from "./Services/kyService";
+
 import XmlService from "./Services/XmlService";
 import { rtkApi } from "./Services/rtkqService";
-import RedAxiosService from "./Services/RedAxiosService";
 
 import WretchService from "./Services/WretchService";
 
 import { FocusContext, init, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useEffect } from "react";
 import FetchService from "./Services/FetchService";
+import { AxiosService, AxiosServiceNoParse } from "./Services/AxiosService";
+import { RedAxiosService, RedAxiosServiceNoParse } from "./Services/RedAxiosService";
+import { kyService, kyServiceNoparse } from "./Services/kyService";
 // import { useEffect } from "react";
 init({ debug: false, visualDebug: false });
 const App = () => {
@@ -99,6 +101,42 @@ const App = () => {
       }
     },
   });
+  const btn8 = useFocusable({
+    onEnterPress: () => {
+      runAxiosNoJson();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "right" || direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn9 = useFocusable({
+    onEnterPress: () => {
+      runredAxiosNoJson();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "left"||direction=='right') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
+  const btn10 = useFocusable({
+    onEnterPress: () => {
+      runKyNoparse();
+    },
+    onArrowPress: (direction) => {
+      if (direction == "left") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  });
   const [trigger] = rtkApi.useLazyGetMoviesQuery();
 
   const runAxios = async () => {
@@ -107,12 +145,16 @@ const App = () => {
     console.table(res);
   };
 
-  const runKy = async () => {
+  const runKyNoparse = async () => {
+    console.log("Starting Ky Benchmark...");
+    const res = await GetBenchmarkMetrics(kyServiceNoparse(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+ const runKy = async () => {
     console.log("Starting Ky Benchmark...");
     const res = await GetBenchmarkMetrics(kyService(), { iteration: 50, concurrent: 10 });
     console.table(res);
   };
-
   const runXml = async () => {
     console.log("Starting XMLHttpRequest Benchmark...");
     const res = await GetBenchmarkMetrics(XmlService(), { iteration: 50, concurrent: 10 });
@@ -142,6 +184,19 @@ const App = () => {
   const runWretch = async () => {
     console.log("Starting wretch Benchmark...");
     const res = await GetBenchmarkMetrics(WretchService(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+
+  //running after disabling json parsing
+  const runAxiosNoJson = async () => {
+    console.log("Starting Axios Benchmark...");
+    const res = await GetBenchmarkMetrics(AxiosServiceNoParse(), { iteration: 50, concurrent: 10 });
+    console.table(res);
+  };
+
+  const runredAxiosNoJson = async () => {
+    console.log("Starting Axios Benchmark...");
+    const res = await GetBenchmarkMetrics(RedAxiosServiceNoParse(), { iteration: 50, concurrent: 10 });
     console.table(res);
   };
   useEffect(() => {
@@ -179,6 +234,15 @@ const App = () => {
         </button>
         <button ref={btn7.ref} onClick={runWretch}>
           Wretch
+        </button>
+        <button ref={btn8.ref} onClick={runAxiosNoJson}>
+          Axios(No parse)
+        </button>
+        <button ref={btn9.ref} onClick={runredAxiosNoJson}>
+          redAx(No parse)
+        </button>
+         <button ref={btn10.ref} onClick={runKyNoparse}>
+          ky(No parse)
         </button>
       </FocusContext.Provider>
     </div>
