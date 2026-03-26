@@ -26,9 +26,9 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
 
     const reqStartTime = performance.now();
     try {
-      const response = await fun;
-      if(response===""){
-        throw "error"
+      let response = await fun;
+      if (response === "") {
+        throw "error";
       }
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
@@ -37,11 +37,10 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
       
       if (response && typeof response.json === "function") {
         const startParseTime = performance.now();
-        data = await response.json();
+        data = await response.clone().json();
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
       } else if (typeof response.data === "string") {
-        console.log(typeof response)
         const startParseTime = performance.now();
         data = JSON.parse(response.data);
         const endParseTime = performance.now();

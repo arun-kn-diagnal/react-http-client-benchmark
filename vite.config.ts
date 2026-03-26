@@ -46,9 +46,14 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: `assets/styles.css`,
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            const packageName = id.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1];
+            if (packageName) {
+              return packageName;
+            }
+          }
+        },
       },
     },
   },
