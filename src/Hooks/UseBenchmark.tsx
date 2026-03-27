@@ -1,4 +1,3 @@
-
 interface BenchmarkResult {
   iteration: number;
   errorRate: number;
@@ -32,9 +31,9 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
       }
       const reqEndTime = performance.now();
       latency.push(reqEndTime - reqStartTime);
-
+      //@ts-ignore
       let data;
-      
+
       if (response && typeof response.json === "function") {
         const startParseTime = performance.now();
         data = await response.clone().json();
