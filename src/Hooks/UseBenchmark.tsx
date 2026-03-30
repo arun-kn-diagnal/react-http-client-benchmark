@@ -36,6 +36,11 @@ const GetBenchmarkMetrics = async (taskFactory: () => Promise<any>, { iteration 
         data = JSON.parse(response.data);
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
+      } else if (response && typeof response === "string") {
+        const startParseTime = performance.now();
+        data = JSON.parse(response);
+        const endParseTime = performance.now();
+        parsing.push(endParseTime - startParseTime);
       } else {
         data = response;
         parsing.push(0);

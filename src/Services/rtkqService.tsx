@@ -4,18 +4,25 @@ import { configureStore } from "@reduxjs/toolkit";
 export const rtkApi = createApi({
   reducerPath: "rtkApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api-entertainment-v1.enlight.diagnal.com',
-    responseHandler: "text"
+    baseUrl: "https://api-entertainment-v1.enlight.diagnal.com",
   }),
   endpoints: (builder) => ({
     getMovies: builder.query<any, void>({
-      query: () => '/content/filters/DOCUMENTARIES?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web',
-      
+      query: (queryArg) => ({
+        url: "/content/filters/DOCUMENTARIES?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web",
+      }),
+    }),
+    getRawMovies: builder.query<any, void>({
+      query: (queryArg) => ({
+        url: "/content/filters/DOCUMENTARIES?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web",
+        responseHandler: "text",
+      }),
     }),
   }),
 });
 
-export const { useGetMoviesQuery } = rtkApi;
+//@ts-ignore
+export const { useGetMoviesQuery, useGetRawMoviesNoQuery } = rtkApi;
 
 export const benchmarkStore = configureStore({
   reducer: { [rtkApi.reducerPath]: rtkApi.reducer },

@@ -8,5 +8,5 @@ export const WretchService = async () => {
 };
 
 export const WretchServiceNoParse = async () => {
-  return instance.get().res();
+  return instance.get().text();
 };
