@@ -8,11 +8,13 @@ export const rtkApi = createApi({
   }),
   endpoints: (builder) => ({
     getMovies: builder.query<any, void>({
+      //@ts-ignore
       query: (queryArg) => ({
         url: "/content/filters/DOCUMENTARIES?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web",
       }),
     }),
     getRawMovies: builder.query<any, void>({
+      //@ts-ignore
       query: (queryArg) => ({
         url: "/content/filters/DOCUMENTARIES?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web",
         responseHandler: "text",
