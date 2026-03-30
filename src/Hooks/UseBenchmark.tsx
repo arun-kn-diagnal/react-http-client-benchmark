@@ -26,11 +26,13 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     const reqStartTime = performance.now();
     try {
       let response = await fun;
+      const reqEndTime = performance.now();
       if (response === "") {
         throw "error";
       }
-      const reqEndTime = performance.now();
+
       latency.push(reqEndTime - reqStartTime);
+      // console.log(reqStartTime, reqEndTime , "time : ",reqEndTime - reqStartTime )
       //@ts-ignore
       let data;
 
@@ -39,7 +41,7 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
         data = await response.clone().json();
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
-      } else if (typeof response.data === "string") {
+      } else if (response && typeof response.data === "string") {
         const startParseTime = performance.now();
         data = JSON.parse(response.data);
         const endParseTime = performance.now();
@@ -71,11 +73,13 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
   }
 
   const end = performance.now();
+
   const totalTime = end - start;
   const throughput = iteration / totalTime;
   const errorRate = (failed / iteration) * 100;
+  // console.table(latency);
   const avgParseTime = parsing.reduce((a, b) => a + b, 0) / parsing.length;
-  const avglatency = latency.reduce((a, b) => a + b, 0) / latency.length;
+  const avglatency = latency.length > 0 ? latency.reduce((a, b) => a + b, 0) / latency.length : 0;
   return {
     iteration,
     errorRate,
