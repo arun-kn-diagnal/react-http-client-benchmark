@@ -4,11 +4,9 @@ const instance = wretch(
 );
 
 export const WretchService = async () => {
-  let response= await instance.get().res();
-  return response;
+  return instance.get().json();
 };
 
 export const WretchServiceNoParse = async () => {
-  let response= await instance.get().json();
-  return response;
+  return instance.get().res();
 };

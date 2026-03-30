@@ -165,31 +165,37 @@ const App = () => {
   const [trigger] = rtkApi.useLazyGetMoviesQuery();
 
   const runAxios = async () => {
-    const dataFirst = await AxiosService()
-    console.log("Starting Axios Benchmark...",dataFirst);
-    const response= await GetBenchmarkMetrics(AxiosService(), { iteration: 50, concurrent: 10 });
-    console.table(response);
+    console.log("Starting Standard Axios...");
+    const res1 = await GetBenchmarkMetrics(AxiosService, { iteration: 50, concurrent: 5 });
+    console.table(res1);
+  };
+
+  //running after disabling json parsing
+  const runAxiosNoJson = async () => {
+    console.log("Starting No-Parse Axios...");
+    const res2 = await GetBenchmarkMetrics(AxiosServiceNoParse, { iteration: 50, concurrent: 5 });
+    console.table(res2);
   };
 
   const runKyNoparse = async () => {
-    console.log("Starting Ky Benchmark...");
-    const response= await GetBenchmarkMetrics(kyServiceNoparse(), { iteration: 50, concurrent: 10 });
+    console.log("Starting Ky no-parse Benchmark...");
+    const response = await GetBenchmarkMetrics(kyServiceNoparse, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runKy = async () => {
     console.log("Starting Ky Benchmark...");
-    const response= await GetBenchmarkMetrics(kyService(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(kyService, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runXml = async () => {
     console.log("Starting XMLHttpRequest Benchmark...");
-    const response= await GetBenchmarkMetrics(XmlService(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(XmlService, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
 
   const runXmlNoparse = async () => {
     console.log("Starting XMl benchmarking ");
-    const response= await GetBenchmarkMetrics(XmlServiceNoParse(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(XmlServiceNoParse, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runRTKQ = async () => {
@@ -198,44 +204,37 @@ const App = () => {
       const result = await trigger(undefined, false).unwrap();
       return { data: result };
     };
-    const response= await GetBenchmarkMetrics(rtkTask(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(rtkTask, { iteration: 50, concurrent: 10 });
+    console.table(response);
+  };
+
+  const runredAxiosNoJson = async () => {
+    console.log("Starting  No-Parse reAxios Benchmark...");
+    const response = await GetBenchmarkMetrics(RedAxiosServiceNoParse, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
 
   const runRedAxios = async () => {
     console.log("Starting redAxios Benchmark...");
-    const response= await GetBenchmarkMetrics(RedAxiosService(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(RedAxiosService, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runFetch = async () => {
     console.log("Starting fetch Benchmark...");
-    const response= await GetBenchmarkMetrics(FetchService(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(FetchService, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runWretch = async () => {
     console.log("Starting wretch Benchmark...");
-    const response= await GetBenchmarkMetrics(WretchService(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(WretchService, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runWretchNoParse = async () => {
     console.log("starting wretch no parsing benchmark");
-    const response= await GetBenchmarkMetrics(WretchServiceNoParse(), { iteration: 50, concurrent: 10 });
-    console.table(response)
-  }
-
-  //running after disabling json parsing
-  const runAxiosNoJson = async () => {
-    const dataFirst = await AxiosServiceNoParse()
-    console.log("Starting Axios Benchmark without auto json parsing",dataFirst);
-    const response= await GetBenchmarkMetrics(AxiosServiceNoParse(), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(WretchServiceNoParse, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
 
-  const runredAxiosNoJson = async () => {
-    console.log("Starting Axios Benchmark...");
-    const response= await GetBenchmarkMetrics(RedAxiosServiceNoParse(), { iteration: 50, concurrent: 10 });
-    console.table(response);
-  };
   useEffect(() => {
     btn1.focusSelf();
   }, []);
@@ -251,41 +250,47 @@ const App = () => {
   return (
     <div ref={ref} style={{ padding: "20px", display: "flex", gap: "10px" }}>
       <FocusContext.Provider value="SN:ROOT">
-        <button ref={btn1.ref} onClick={runKy}>
-          Run Ky
-        </button>
-        <button ref={btn10.ref} onClick={runKyNoparse}>
-          ky(No parse)
-        </button>
         <button ref={btn2.ref} onClick={runAxios}>
           Run Axios
         </button>
         <button ref={btn8.ref} onClick={runAxiosNoJson}>
           Axios(No parse)
         </button>
-        <button ref={btn3.ref} onClick={runRTKQ}>
-          Run RTK Query
+
+        <button ref={btn1.ref} onClick={runKy}>
+          Run Ky
         </button>
-        <button ref={btn4.ref} onClick={runXml}>
-          Run XMLHttpRequest
+        <button ref={btn10.ref} onClick={runKyNoparse}>
+          ky(No parse)
         </button>
-        <button ref={btn11.ref} onClick={runXmlNoparse}>
-          Ryn XMLhttprequest (no parsing)
-        </button>
+
         <button ref={btn5.ref} onClick={runRedAxios}>
           RedAxios
         </button>
         <button ref={btn9.ref} onClick={runredAxiosNoJson}>
           redAx(No parse)
         </button>
-        <button ref={btn6.ref} onClick={runFetch}>
-          Fetch
+
+        <button ref={btn3.ref} onClick={runRTKQ}>
+          Run RTK Query
         </button>
+
         <button ref={btn7.ref} onClick={runWretch}>
           Wretch
         </button>
         <button ref={btn12.ref} onClick={runWretchNoParse}>
-          Wretch no parsing 
+          Wretch no parsing
+        </button>
+
+        <button ref={btn6.ref} onClick={runFetch}>
+          Fetch
+        </button>
+
+        <button ref={btn4.ref} onClick={runXml}>
+          Run XMLHttpRequest
+        </button>
+        <button ref={btn11.ref} onClick={runXmlNoparse}>
+          Ryn XMLhttprequest (no parsing)
         </button>
       </FocusContext.Provider>
     </div>

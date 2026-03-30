@@ -6,31 +6,21 @@ interface BenchmarkResult {
   avglatency: number;
   success: number;
   failed: number;
+  totalTime: number;
 }
 
-const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurrent = 5 } = {}): Promise<BenchmarkResult> => {
+const GetBenchmarkMetrics = async (taskFactory: () => Promise<any>, { iteration = 20, concurrent = 5 } = {}): Promise<BenchmarkResult> => {
   let success = 0,
-    failed = 0,
-    active = 0,
-    maxconcurrent = 0;
-
+    failed = 0;
   const latency: number[] = [],
     parsing: number[] = [];
-
   const start = performance.now();
 
   const reqStart = async () => {
-    active++;
-    if (active > maxconcurrent) maxconcurrent = active;
-
     const reqStartTime = performance.now();
     try {
-      let response = await fun;
+      const response = await taskFactory();
       const reqEndTime = performance.now();
-      if (response === "") {
-        throw "error";
-      }
-
       latency.push(reqEndTime - reqStartTime);
       // console.log(reqStartTime, reqEndTime , "time : ",reqEndTime - reqStartTime )
       //@ts-ignore
@@ -48,16 +38,12 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
         parsing.push(endParseTime - startParseTime);
       } else {
         data = response;
+        parsing.push(0);
       }
-
       success++;
     } catch (error) {
-      const reqEndTime = performance.now();
-
-      latency.push(reqEndTime - reqStartTime);
+      latency.push(performance.now() - reqStartTime);
       failed++;
-    } finally {
-      active--;
     }
   };
 
@@ -72,22 +58,17 @@ const GetBenchmarkMetrics = async (fun: Promise<any>, { iteration = 20, concurre
     await Promise.all(promises);
   }
 
-  const end = performance.now();
+  const totalTime = performance.now() - start;
 
-  const totalTime = end - start;
-  const throughput = iteration / totalTime;
-  const errorRate = (failed / iteration) * 100;
-  // console.table(latency);
-  const avgParseTime = parsing.reduce((a, b) => a + b, 0) / parsing.length;
-  const avglatency = latency.length > 0 ? latency.reduce((a, b) => a + b, 0) / latency.length : 0;
   return {
     iteration,
-    errorRate,
-    throughput,
-    avgParseTime,
-    avglatency,
+    throughput: iteration / totalTime,
+    avgParseTime: parsing.reduce((a, b) => a + b, 0) / (parsing.length || 1),
+    avglatency: latency.reduce((a, b) => a + b, 0) / (latency.length || 1),
     success,
     failed,
+    totalTime,
+    errorRate: (failed / iteration) * 100,
   };
 };
 
