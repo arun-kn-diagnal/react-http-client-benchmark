@@ -4,6 +4,8 @@
    <name>Empty Template</name>
    <icon src="icon.png"></icon>
    <content src="index.html"></content>
+   <access origin="*" subdomains="true" />
+
    <feature
       name="http://tizen.org/feature/screen.size.normal.1080.1920"></feature>
    <tizen:setting

@@ -17,6 +17,7 @@ import { kyService, kyServiceNoparse } from "./Services/kyService";
 init({ debug: false, visualDebug: false });
 const App = () => {
   const { ref, focused } = useFocusable({ trackChildren: true });
+
   const btn1 = useFocusable({
     onEnterPress: () => {
       runAxios();
@@ -94,7 +95,7 @@ const App = () => {
       runRTKQ();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -130,7 +131,7 @@ const App = () => {
       runWretchNoParse();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -142,7 +143,7 @@ const App = () => {
       runFetch();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -154,7 +155,7 @@ const App = () => {
       runXml();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -167,7 +168,7 @@ const App = () => {
       runXmlNoparse();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -179,7 +180,7 @@ const App = () => {
       runFetchNoParse();
     },
     onArrowPress: (direction) => {
-      if (direction == "left") {
+      if (direction == "right" || direction == "left") {
         return true;
       } else {
         return false;
@@ -228,7 +229,7 @@ const App = () => {
     console.log("Starting RTK Query Benchmark...");
     const rtkTask = async () => {
       const result = await triggerAuto(undefined, false).unwrap();
-      
+
       console.log(result);
       return { data: result };
     };
