@@ -49,7 +49,7 @@ const GetBenchmarkMetrics = async (taskFactory: () => Promise<any>, { iteration 
         parsing.push(endParseTime - startParseTime);
       } else {
         data = response;
-        console.log("Type:4", data.data);
+        console.log("Type:4", data);
 
         parsing.push(0);
       }

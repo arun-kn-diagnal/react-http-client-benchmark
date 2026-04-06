@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "redaxios";
 
+
 const instance = axios.create({
   baseURL: "https://api-entertainment-v1.enlight.diagnal.com",
 });
@@ -36,7 +37,7 @@ export const NoParse = async (method: Method, url: string, body?: any) => {
 
 const genres = ["DOCUMENTARIES", "TOP-10-MOVIES", "DRAMA", "KIDS-AND-FAMILY", "SPIDER-VERSE"];
 const languages = ["en-US", "ar-SA"];
-export const RedAxiosService = async () => {
+export const AxiosService = async () => {
   const chance = Math.random();
 
   if (chance > 0.95) {
@@ -60,17 +61,17 @@ export const RedAxiosService = async () => {
   }
 };
 
-export const RedAxiosServiceNoParse = async () => {
+export const AxiosServiceNoParse = async () => {
   const chance = Math.random();
 
   if (chance > 0.95) {
     requestCounter[0] += 1;
 
-    console.log("PUT", requestCounter);
+    // console.log("PUT", requestCounter);
     return NoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" }),requestCounter;
   } else if (chance > 0.9) {
     requestCounter[1] += 1;
-    console.log("POST", requestCounter);
+    // console.log("POST", requestCounter);
 
     return NoParse("POST", "", { userId: "Arun", event: "app_launch" }),requestCounter;
   } else {
@@ -79,7 +80,8 @@ export const RedAxiosServiceNoParse = async () => {
 
     const dynamicUrl = `/content/filters/${genre}?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=${lang}&platform=web`;
     requestCounter[2] += 1;
-    console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
-    return NoParse("GET", dynamicUrl),requestCounter;
-  }
+    // console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
+    return NoParse("GET", dynamicUrl);
+  } 
+  
 };

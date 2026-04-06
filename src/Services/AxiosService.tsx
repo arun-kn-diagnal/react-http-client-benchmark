@@ -80,6 +80,7 @@ export const AxiosServiceNoParse = async () => {
     const dynamicUrl = `/content/filters/${genre}?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=${lang}&platform=web`;
     requestCounter[2] += 1;
     // console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
-    return NoParse("GET", dynamicUrl),requestCounter;
-  }
+    return NoParse("GET", dynamicUrl);
+  } 
+  
 };
