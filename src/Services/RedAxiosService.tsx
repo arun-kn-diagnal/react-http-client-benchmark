@@ -1,16 +1,85 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "redaxios";
 
-export const RedAxiosService = async (method:"GET"|"POST",body?:any) => {
-  if(method=="POST"){
-    return axios({url:"https://jsonplaceholder.typicode.com/posts",data:body,method})
+const instance = axios.create({
+  baseURL: "https://api-entertainment-v1.enlight.diagnal.com",
+});
+
+const inst = axios.create({
+  baseURL: "https://jsonplaceholder.typicode.com/posts",
+});
+
+const requestCounter = [0, 0, 0];
+type Method = "GET" | "POST" | "PUT";
+
+export const AutoParse = async (method: Method, url: string, body?: any) => {
+  if (method === "POST") {
+    return inst.post("", body);
   }
-  return axios({url:"https://api-entertainment-v1.enlight.diagnal.com/content/filters/KIDS-AND-FAMILY?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web",  headers:{"Content-Type":"application/json"},method});
+  if (method === "PUT") {
+    const id = body?.id || "vpr80p5ODLU";
+    return inst.put(`/${id}`, body);
+  }
+  return instance.get(url);
 };
 
-export const RedAxiosServiceNoParse = async (method:"GET"|"POST",body?:any) => {
-   if(method=="POST"){
-    return axios({url:"https://jsonplaceholder.typicode.com/posts",data:body,method})
+export const NoParse = async (method: Method, url: string, body?: any) => {
+  if (method === "POST") {
+    return inst.post("", body);
   }
- return axios({url:"https://jsonplaceholder.typicode.com/posts",  headers:{"Content-Type":"application/json"}});
+  if (method === "PUT") {
+    const id = body?.id || "vpr80p5ODLU";
+    return inst.put(`/${id}`, body);
+  }
+  return instance.get(url, { responseType: "text" });
+};
+
+const genres = ["DOCUMENTARIES", "TOP-10-MOVIES", "DRAMA", "KIDS-AND-FAMILY", "SPIDER-VERSE"];
+const languages = ["en-US", "ar-SA"];
+export const RedAxiosService = async () => {
+  const chance = Math.random();
+
+  if (chance > 0.95) {
+    requestCounter[0] += 1;
+
+    console.log("PUT", requestCounter);
+    return AutoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" });
+  } else if (chance > 0.9) {
+    requestCounter[1] += 1;
+    console.log("POST", requestCounter);
+
+    return AutoParse("POST", "", { userId: "Arun", event: "app_launch" });
+  } else {
+    const genre = genres[Math.floor(Math.random() * genres.length)];
+    const lang = languages[Math.floor(Math.random() * languages.length)];
+
+    const dynamicUrl = `/content/filters/${genre}?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=${lang}&platform=web`;
+    requestCounter[2] += 1;
+    console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
+    return AutoParse("GET", dynamicUrl);
+  }
+};
+
+export const RedAxiosServiceNoParse = async () => {
+  const chance = Math.random();
+
+  if (chance > 0.95) {
+    requestCounter[0] += 1;
+
+    console.log("PUT", requestCounter);
+    return NoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" }),requestCounter;
+  } else if (chance > 0.9) {
+    requestCounter[1] += 1;
+    console.log("POST", requestCounter);
+
+    return NoParse("POST", "", { userId: "Arun", event: "app_launch" }),requestCounter;
+  } else {
+    const genre = genres[Math.floor(Math.random() * genres.length)];
+    const lang = languages[Math.floor(Math.random() * languages.length)];
+
+    const dynamicUrl = `/content/filters/${genre}?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=${lang}&platform=web`;
+    requestCounter[2] += 1;
+    console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
+    return NoParse("GET", dynamicUrl),requestCounter;
+  }
 };

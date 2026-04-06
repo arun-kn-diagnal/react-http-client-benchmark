@@ -190,29 +190,15 @@ const App = () => {
 
   const runAxios = async () => {
     console.log("Starting Standard Axios...");
-    const res1 = await GetBenchmarkMetrics(()=>AxiosService("GET"), { iteration: 50, concurrent: 5 });
-     const res2 = await GetBenchmarkMetrics(()=>AxiosService("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 5, concurrent: 1 });
-    console.table(res1);
-    console.table(res2);
-  }
+    const response = await GetBenchmarkMetrics(AxiosService, { iteration: 50, concurrent: 5 });
+    console.table(response);
+  };
 
   //running after disabling json parsing
   const runAxiosNoJson = async () => {
     console.log("Starting No-Parse Axios...");
-    const res3 = await GetBenchmarkMetrics(()=>AxiosServiceNoParse("GET"), { iteration: 50, concurrent: 5 });
-     const res4= await GetBenchmarkMetrics(()=>AxiosService("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 5 });
-    console.table(res3);
-    console.table(res4)
+    const response = await GetBenchmarkMetrics(AxiosServiceNoParse, { iteration: 50, concurrent: 5 });
+    console.table(response);
   };
 
   const runKyNoparse = async () => {
@@ -263,80 +249,84 @@ const App = () => {
 
   const runredAxiosNoJson = async () => {
     console.log("Starting  No-Parse reAxios Benchmark...");
-    const response = await GetBenchmarkMetrics(()=>RedAxiosServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
-     const resp = await GetBenchmarkMetrics(()=>RedAxiosServiceNoParse("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(RedAxiosService, { iteration: 50, concurrent: 5 });
+
     console.table(response);
-    console.table(resp)
   };
 
   const runRedAxios = async () => {
     console.log("Starting redAxios Benchmark...");
-    const response = await GetBenchmarkMetrics(()=>RedAxiosService("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(()=>RedAxiosService("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(RedAxiosServiceNoParse, { iteration: 50, concurrent: 5 });
+
     console.table(response);
-    console.table(resp)
   };
   const runFetch = async () => {
     console.log("Starting fetch Benchmark...");
-    const response = await GetBenchmarkMetrics(()=>FetchService("GET"), { iteration: 50, concurrent: 10 });
-     const resp= await GetBenchmarkMetrics(()=>FetchService("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(() => FetchService("GET"), { iteration: 50, concurrent: 10 });
+    const resp = await GetBenchmarkMetrics(
+      () =>
+        FetchService("POST", {
+          userId: 1,
+          id: Math.random(),
+          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+        }),
+      { iteration: 50, concurrent: 10 },
+    );
     console.table(response);
     console.table(resp);
   };
   const runFetchNoParse = async () => {
     console.log("Starting fetch no parsing Benchmark...");
-    const response = await GetBenchmarkMetrics(()=>FetchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(()=>FetchServiceNoParse("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(() => FetchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
+    const resp = await GetBenchmarkMetrics(
+      () =>
+        FetchServiceNoParse("POST", {
+          userId: 1,
+          id: Math.random(),
+          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+        }),
+      { iteration: 50, concurrent: 10 },
+    );
     console.table(response);
-     console.table(resp);
+    console.table(resp);
   };
 
   const runWretch = async () => {
     console.log("Starting wretch Benchmark...");
 
-    const response = await GetBenchmarkMetrics(()=>WretchService("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(()=>WretchService("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(() => WretchService("GET"), { iteration: 50, concurrent: 10 });
+    const resp = await GetBenchmarkMetrics(
+      () =>
+        WretchService("POST", {
+          userId: 1,
+          id: Math.random(),
+          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+        }),
+      { iteration: 50, concurrent: 10 },
+    );
 
     console.table(response);
-     console.table(resp);
+    console.table(resp);
   };
   const runWretchNoParse = async () => {
     console.log("starting wretch no parsing benchmark");
 
-    const response = await GetBenchmarkMetrics(()=>WretchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
-     const resp = await GetBenchmarkMetrics(()=>WretchServiceNoParse("POST",{
-    userId: 1,
-    id: Math.random(),
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  }), { iteration: 5, concurrent: 1 });
+    const response = await GetBenchmarkMetrics(() => WretchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
+    const resp = await GetBenchmarkMetrics(
+      () =>
+        WretchServiceNoParse("POST", {
+          userId: 1,
+          id: Math.random(),
+          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+        }),
+      { iteration: 5, concurrent: 1 },
+    );
     console.table(response);
-    console.table(resp)
+    console.table(resp);
   };
 
   useEffect(() => {

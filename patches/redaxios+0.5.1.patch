@@ -25655,15 +25655,23 @@ index 0000000..430e75f
 +  }
 +}
 diff --git a/node_modules/redaxios/src/index.js b/node_modules/redaxios/src/index.js
-index cca6534..c81f9c1 100644
+index cca6534..a7df743 100644
 --- a/node_modules/redaxios/src/index.js
 +++ b/node_modules/redaxios/src/index.js
-@@ -214,7 +214,7 @@ function create(defaults) {
- 				.then((data) => {
+@@ -215,6 +215,16 @@ function create(defaults) {
  					response.data = data;
  					// its okay if this fails: response.data will be the unparsed value:
--					response.data = JSON.parse(data);
-+					// response.data = JSON.parse(data);
+ 					response.data = JSON.parse(data);
++
++					// Only attempt to parse if the user actually wants JSON 
++					// or if using the default 'json' type
++					if (!options.responseType || options.responseType === 'json') {
++						try {
++							response.data = JSON.parse(data);
++						} catch (e) {
++							// do nothing and retur the no parsed data
++						}
++					}
  				})
  				.catch(Object)
  				.then(() => {
