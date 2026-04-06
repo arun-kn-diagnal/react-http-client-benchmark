@@ -1,13 +1,14 @@
-export const FetchService = async () => {
-  const url = "https://api-entertainment-v1.enlight.diagnal.com/content/filters/KIDS-AND-FAMILY?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const FetchService = async (method:"GET"|"POST",body?:any) => {
+  const url = "https://jsonplaceholder.typicode.com/posts";
   //    let errorCount=0;
 
-  return (await fetch(url)).json();
+  return (await fetch(url,{method,body:method=="POST"?JSON.stringify(body):undefined})).json();
 };
 
-export const FetchServiceNoParse = async () => {
-  const url = "https://api-entertainment-v1.enlight.diagnal.com/content/filters/KIDS-AND-FAMILY?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=en-US&platform=web";
+export const FetchServiceNoParse = async (method:"GET"|"POST",body?:any) => {
+  const url = "https://jsonplaceholder.typicode.com/posts";
   //    let errorCount=0;
 
-  return (await fetch(url)).text();
+  return (await fetch(url,{method,body:method=="POST"?JSON.stringify(body):undefined})).text();
 };
