@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "redaxios";
+//@ts-ignore
+import axios from "../../node_modules/redaxios/src/index.js";
 
 const instance = axios.create({
   baseURL: "https://api-entertainment-v1.enlight.diagnal.com",
