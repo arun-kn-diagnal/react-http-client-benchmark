@@ -230,6 +230,7 @@ const App = () => {
   const [triggerManual] = useLazyGetMoviesNoParseQuery();
 
   const runRTKQ = async () => {
+    console.log("Starting RTKQ Benchmark...");
     const rtkTask = async () => {
       const chance = Math.random();
 
@@ -251,6 +252,8 @@ const App = () => {
   };
 
   const runRTKQRaw = async () => {
+        console.log("Starting RTKQ no parse Benchmark...");
+
     const rtkTask = async () => {
       const chance = Math.random();
 
