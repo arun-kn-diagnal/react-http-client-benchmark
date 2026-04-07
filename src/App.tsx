@@ -223,67 +223,63 @@ const App = () => {
     console.table(response);
   };
   const GENRES = ["DOCUMENTARIES", "TOP-10-MOVIES", "DRAMA", "KIDS-AND-FAMILY", "SPIDER-VERSE"];
-const LANGUAGES = ["en-US", "ar-SA"];
+  const LANGUAGES = ["en-US", "ar-SA"];
 
-const [triggerAuto] = useLazyGetMoviesQuery();
-const [triggerManual] = useLazyGetMoviesNoParseQuery();
+  const [triggerAuto] = useLazyGetMoviesQuery();
+  const [triggerManual] = useLazyGetMoviesNoParseQuery();
 
-const runRTKQ = async () => {
-  const rtkTask = async () => {
-    const chance = Math.random();
+  const runRTKQ = async () => {
+    const rtkTask = async () => {
+      const chance = Math.random();
 
-    if (chance > 0.95) {
-      return await benchmarkStore.dispatch(
-        rtkApi.endpoints.updatePost.initiate({ id: 1, body: { lastWatched: Date.now() } })
-      ).unwrap();
-    } 
-    if (chance > 0.90) {
-      return await benchmarkStore.dispatch(
-        rtkApi.endpoints.createPost.initiate({ userId: "Arun", event: "app_launch" })
-      ).unwrap();
-    } 
+      if (chance > 0.95) {
+        return await benchmarkStore.dispatch(rtkApi.endpoints.updatePost.initiate({ id: 1, body: { lastWatched: Date.now() } })).unwrap();
+      }
+      if (chance > 0.9) {
+        return await benchmarkStore.dispatch(rtkApi.endpoints.createPost.initiate({ userId: "Arun", event: "app_launch" })).unwrap();
+      }
 
-    const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
-    const lang = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)];
-    
-    return await triggerAuto({ genre, lang }, false).unwrap();
+      const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
+      const lang = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)];
+
+      return await triggerAuto({ genre, lang }, false).unwrap();
+    };
+
+    const response = await GetBenchmarkMetrics(rtkTask, { iteration: 50, concurrent: 10 });
+    console.table(response);
   };
 
-  const response = await GetBenchmarkMetrics(rtkTask, { iteration: 50, concurrent: 10 });
-  console.table(response);
-};
+  const runRTKQRaw = async () => {
+    const rtkTask = async () => {
+      const chance = Math.random();
 
-const runRTKQRaw = async () => {
-  const rtkTask = async () => {
-    const chance = Math.random();
+      if (chance > 0.95) {
+        return await benchmarkStore.dispatch(rtkApi.endpoints.updatePost.initiate({ id: 1, body: { t: Date.now() } })).unwrap();
+      }
+      if (chance > 0.9) {
+        return await benchmarkStore.dispatch(rtkApi.endpoints.createPost.initiate({ event: "bench" })).unwrap();
+      }
 
-    if (chance > 0.95) {
-      return await benchmarkStore.dispatch(rtkApi.endpoints.updatePost.initiate({ id: 1, body: { t: Date.now() } })).unwrap();
-    } 
-    if (chance > 0.90) {
-      return await benchmarkStore.dispatch(rtkApi.endpoints.createPost.initiate({ event: "bench" })).unwrap();
-    } 
+      const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
+      const lang = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)];
 
-    const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
-    const lang = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)];
+      return await triggerManual({ genre, lang }, false).unwrap();
+    };
 
-    return await triggerManual({ genre, lang }, false).unwrap();
+    const response = await GetBenchmarkMetrics(rtkTask, { iteration: 50, concurrent: 10 });
+    console.table(response);
   };
-
-  const response = await GetBenchmarkMetrics(rtkTask, { iteration: 50, concurrent: 10 });
-  console.table(response);
-};
 
   const runredAxiosNoJson = async () => {
     console.log("Starting  No-Parse reAxios Benchmark...");
-    const response = await GetBenchmarkMetrics(RedAxiosService, { iteration: 50, concurrent: 5 });
+    const response = await GetBenchmarkMetrics(RedAxiosServiceNoParse, { iteration: 50, concurrent: 5 });
 
     console.table(response);
   };
 
   const runRedAxios = async () => {
     console.log("Starting redAxios Benchmark...");
-    const response = await GetBenchmarkMetrics(RedAxiosServiceNoParse, { iteration: 50, concurrent: 5 });
+    const response = await GetBenchmarkMetrics(RedAxiosService, { iteration: 50, concurrent: 5 });
 
     console.table(response);
   };

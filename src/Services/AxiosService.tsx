@@ -42,11 +42,11 @@ export const AxiosService = async () => {
   if (chance > 0.95) {
     requestCounter[0] += 1;
 
-    console.log("PUT", requestCounter);
+    // console.log("PUT", requestCounter);
     return AutoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" });
   } else if (chance > 0.9) {
     requestCounter[1] += 1;
-    console.log("POST", requestCounter);
+    // console.log("POST", requestCounter);
 
     return AutoParse("POST", "", { userId: "Arun", event: "app_launch" });
   } else {
@@ -55,7 +55,7 @@ export const AxiosService = async () => {
 
     const dynamicUrl = `/content/filters/${genre}?origin=enhance&origin=vcms&source=enhance&region=IN&maxParentalRatings=UA&language=${lang}&platform=web`;
     requestCounter[2] += 1;
-    console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
+    // console.log(dynamicUrl, "Get", genre, ",", lang, requestCounter);
     return AutoParse("GET", dynamicUrl);
   }
 };
@@ -67,12 +67,12 @@ export const AxiosServiceNoParse = async () => {
     requestCounter[0] += 1;
 
     // console.log("PUT", requestCounter);
-    return NoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" }),requestCounter;
+    return NoParse("PUT", "", { id: 1, lastWatched: Date.now(), status: "completed" });
   } else if (chance > 0.9) {
     requestCounter[1] += 1;
     // console.log("POST", requestCounter);
 
-    return NoParse("POST", "", { userId: "Arun", event: "app_launch" }),requestCounter;
+    return NoParse("POST", "", { userId: "Arun", event: "app_launch" });
   } else {
     const genre = genres[Math.floor(Math.random() * genres.length)];
     const lang = languages[Math.floor(Math.random() * languages.length)];

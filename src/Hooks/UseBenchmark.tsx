@@ -30,26 +30,26 @@ const GetBenchmarkMetrics = async (taskFactory: () => Promise<any>, { iteration 
       if (response && typeof response.json === "function") {
         const startParseTime = performance.now();
         data = await response.clone().json();
-        console.log("Type:1", data);
+        // console.log("Type:1", data);
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
       } else if (response && typeof response.data === "string") {
         const startParseTime = performance.now();
         data = JSON.parse(response.data);
-        console.log("Type:2", data);
+        // console.log("Type:2", response.data);
 
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
       } else if (response && typeof response === "string") {
         const startParseTime = performance.now();
         data = JSON.parse(response);
-        console.log("Type:3", data);
+        // console.log("Type:3", data);
 
         const endParseTime = performance.now();
         parsing.push(endParseTime - startParseTime);
       } else {
-        data = response;
-        console.log("Type:4", data);
+        data = response.data;
+        // console.log("Type:4", data);
 
         parsing.push(0);
       }
