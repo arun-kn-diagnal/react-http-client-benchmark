@@ -5,14 +5,15 @@ import "./App.css";
 import { XmlService, XmlServiceNoParse } from "./Services/XmlService";
 import { useLazyGetMoviesQuery, useLazyGetMoviesNoParseQuery, rtkApi, benchmarkStore } from "./Services/rtkqService";
 
-import { WretchService, WretchServiceNoParse } from "./Services/WretchService";
+
 
 import { FocusContext, init, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useEffect } from "react";
-import { FetchService, FetchServiceNoParse } from "./Services/FetchService";
+import { FetchService, FetchServicenoParse } from "./Services/FetchService";
 import { AxiosService, AxiosServiceNoParse } from "./Services/AxiosService";
 import { RedAxiosService, RedAxiosServiceNoParse } from "./Services/RedAxiosService";
-import { kyService, kyServiceNoparse } from "./Services/kyService";
+import { kyService, kyServicenoParse} from "./Services/kyService";
+import { wretchService, wretchServicenoParse } from "./Services/WretchService";
 // import { useEffect } from "react";
 init({ debug: false, visualDebug: false });
 const App = () => {
@@ -203,7 +204,7 @@ const App = () => {
 
   const runKyNoparse = async () => {
     console.log("Starting Ky no-parse Benchmark...");
-    const response = await GetBenchmarkMetrics(kyServiceNoparse, { iteration: 50, concurrent: 10 });
+    const response = await GetBenchmarkMetrics(kyServicenoParse, { iteration: 50, concurrent: 10 });
     console.table(response);
   };
   const runKy = async () => {
@@ -285,71 +286,35 @@ const App = () => {
   };
   const runFetch = async () => {
     console.log("Starting fetch Benchmark...");
-    const response = await GetBenchmarkMetrics(() => FetchService("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(
-      () =>
-        FetchService("POST", {
-          userId: 1,
-          id: Math.random(),
-          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-        }),
-      { iteration: 50, concurrent: 10 },
-    );
+    const response = await GetBenchmarkMetrics(FetchService, { iteration: 50, concurrent: 10 });
+    
     console.table(response);
-    console.table(resp);
+    
   };
   const runFetchNoParse = async () => {
     console.log("Starting fetch no parsing Benchmark...");
-    const response = await GetBenchmarkMetrics(() => FetchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(
-      () =>
-        FetchServiceNoParse("POST", {
-          userId: 1,
-          id: Math.random(),
-          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-        }),
-      { iteration: 50, concurrent: 10 },
-    );
+    const response = await GetBenchmarkMetrics(FetchServicenoParse, { iteration: 50, concurrent: 10 });
+   
     console.table(response);
-    console.table(resp);
+  
   };
 
   const runWretch = async () => {
     console.log("Starting wretch Benchmark...");
 
-    const response = await GetBenchmarkMetrics(() => WretchService("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(
-      () =>
-        WretchService("POST", {
-          userId: 1,
-          id: Math.random(),
-          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-        }),
-      { iteration: 50, concurrent: 10 },
-    );
+    const response = await GetBenchmarkMetrics(wretchService, { iteration: 50, concurrent: 10 });
+    
 
     console.table(response);
-    console.table(resp);
+    
   };
   const runWretchNoParse = async () => {
     console.log("starting wretch no parsing benchmark");
 
-    const response = await GetBenchmarkMetrics(() => WretchServiceNoParse("GET"), { iteration: 50, concurrent: 10 });
-    const resp = await GetBenchmarkMetrics(
-      () =>
-        WretchServiceNoParse("POST", {
-          userId: 1,
-          id: Math.random(),
-          title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-          body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-        }),
-      { iteration: 5, concurrent: 1 },
-    );
+    const response = await GetBenchmarkMetrics(wretchServicenoParse, { iteration: 50, concurrent: 10 });
+   
     console.table(response);
-    console.table(resp);
+
   };
 
   useEffect(() => {
