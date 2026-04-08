@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { FetchService, FetchServicenoParse } from "./Services/FetchService";
 import { AxiosService, AxiosServiceNoParse } from "./Services/AxiosService";
 import { RedAxiosService, RedAxiosServiceNoParse } from "./Services/RedAxiosService";
-import { kyService, kyServicenoParse} from "./Services/kyService";
+import { kyService, kyServicenoParse } from "./Services/kyService";
 import { wretchService, wretchServicenoParse } from "./Services/WretchService";
 // import { useEffect } from "react";
 init({ debug: false, visualDebug: false });
@@ -24,11 +24,7 @@ const App = () => {
       runAxios();
     },
     onArrowPress: (direction) => {
-      if (direction == "right") {
-        return true;
-      } else {
-        return false;
-      }
+      return true
     },
   });
   const btn2 = useFocusable({
@@ -36,11 +32,7 @@ const App = () => {
       runAxiosNoJson();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn3 = useFocusable({
@@ -48,11 +40,7 @@ const App = () => {
       runKy();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn4 = useFocusable({
@@ -60,11 +48,7 @@ const App = () => {
       runKyNoparse();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn5 = useFocusable({
@@ -72,11 +56,7 @@ const App = () => {
       runRedAxios();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn6 = useFocusable({
@@ -84,11 +64,7 @@ const App = () => {
       runredAxiosNoJson();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn7 = useFocusable({
@@ -96,11 +72,7 @@ const App = () => {
       runRTKQ();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn8 = useFocusable({
@@ -108,11 +80,7 @@ const App = () => {
       runRTKQRaw();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn9 = useFocusable({
@@ -120,11 +88,7 @@ const App = () => {
       runWretch();
     },
     onArrowPress: (direction) => {
-      if (direction == "left" || direction == "right") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn10 = useFocusable({
@@ -132,11 +96,7 @@ const App = () => {
       runWretchNoParse();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn11 = useFocusable({
@@ -144,11 +104,7 @@ const App = () => {
       runFetch();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn12 = useFocusable({
@@ -156,11 +112,7 @@ const App = () => {
       runXml();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
 
@@ -169,11 +121,7 @@ const App = () => {
       runXmlNoparse();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
   const btn14 = useFocusable({
@@ -181,11 +129,7 @@ const App = () => {
       runFetchNoParse();
     },
     onArrowPress: (direction) => {
-      if (direction == "right" || direction == "left") {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     },
   });
 
@@ -252,7 +196,7 @@ const App = () => {
   };
 
   const runRTKQRaw = async () => {
-        console.log("Starting RTKQ no parse Benchmark...");
+    console.log("Starting RTKQ no parse Benchmark...");
 
     const rtkTask = async () => {
       const chance = Math.random();
@@ -290,32 +234,32 @@ const App = () => {
   const runFetch = async () => {
     console.log("Starting fetch Benchmark...");
     const response = await GetBenchmarkMetrics(FetchService, { iteration: 50, concurrent: 10 });
-    
+
     console.table(response);
-    
+
   };
   const runFetchNoParse = async () => {
     console.log("Starting fetch no parsing Benchmark...");
     const response = await GetBenchmarkMetrics(FetchServicenoParse, { iteration: 50, concurrent: 10 });
-   
+
     console.table(response);
-  
+
   };
 
   const runWretch = async () => {
     console.log("Starting wretch Benchmark...");
 
     const response = await GetBenchmarkMetrics(wretchService, { iteration: 50, concurrent: 10 });
-    
+
 
     console.table(response);
-    
+
   };
   const runWretchNoParse = async () => {
     console.log("starting wretch no parsing benchmark");
 
     const response = await GetBenchmarkMetrics(wretchServicenoParse, { iteration: 50, concurrent: 10 });
-   
+
     console.table(response);
 
   };
@@ -335,194 +279,210 @@ const App = () => {
   return (
     <div ref={ref} style={{ padding: "20px", display: "flex", gap: "10px" }}>
       <FocusContext.Provider value="SN:ROOT">
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn1.ref}
-          onClick={runAxios}
-        >
-          Run Axios
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn2.ref}
-          onClick={runAxiosNoJson}
-        >
-          Axios(No parse)
-        </button>
+        <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn1.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn1.ref}
+            onClick={runAxios}
+          >
+            Run Axios
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn2.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn2.ref}
+            onClick={runAxiosNoJson}
+          >
+            Axios(No parse)
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn3.ref}
-          onClick={runKy}
-        >
-          Run Ky
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn4.ref}
-          onClick={runKyNoparse}
-        >
-          ky(No parse)
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn3.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn3.ref}
+            onClick={runKy}
+          >
+            Run Ky
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn4.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn4.ref}
+            onClick={runKyNoparse}
+          >
+            ky(No parse)
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn5.ref}
-          onClick={runRedAxios}
-        >
-          RedAxios
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn6.ref}
-          onClick={runredAxiosNoJson}
-        >
-          redAx(No parse)
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn5.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn5.ref}
+            onClick={runRedAxios}
+          >
+            RedAxios
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn6.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn6.ref}
+            onClick={runredAxiosNoJson}
+          >
+            redAx(No parse)
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn7.ref}
-          onClick={runRTKQ}
-        >
-          Run RTK Query
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn8.ref}
-          onClick={runRTKQRaw}
-        >
-          Run RTK Query ( no parse )
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn7.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn7.ref}
+            onClick={runRTKQ}
+          >
+            Run RTK Query
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn8.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn8.ref}
+            onClick={runRTKQRaw}
+          >
+            Run RTK Query ( no parse )
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn9.ref}
-          onClick={runWretch}
-        >
-          Wretch
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn10.ref}
-          onClick={runWretchNoParse}
-        >
-          Wretch no parsing
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn9.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn9.ref}
+            onClick={runWretch}
+          >
+            Wretch
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn10.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn10.ref}
+            onClick={runWretchNoParse}
+          >
+            Wretch no parsing
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn11.ref}
-          onClick={runFetch}
-        >
-          Fetch
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn14.ref}
-          onClick={runFetchNoParse}
-        >
-          Fetch (no parsing)
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn11.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn11.ref}
+            onClick={runFetch}
+          >
+            Fetch
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn14.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn14.ref}
+            onClick={runFetchNoParse}
+          >
+            Fetch (no parsing)
+          </button>
 
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn12.ref}
-          onClick={runXml}
-        >
-          Run XMLHttpRequest
-        </button>
-        <button
-          style={{
-            padding: "16px 32px",
-            backgroundColor: focused ? "#0066cc" : "#333",
-            color: "white",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          ref={btn13.ref}
-          onClick={runXmlNoparse}
-        >
-          Ryn XMLhttprequest (no parsing)
-        </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn12.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn12.ref}
+            onClick={runXml}
+          >
+            Run XMLHttpRequest
+          </button>
+          <button
+            style={{
+              padding: "16px 32px",
+              margin: "10px",
+              backgroundColor: `${btn13.focused ? "#ff0000" : "#333"}`,
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            ref={btn13.ref}
+            onClick={runXmlNoparse}
+          >
+            Ryn XMLhttprequest (no parsing)
+          </button>
+        </div>
       </FocusContext.Provider>
     </div>
   );
