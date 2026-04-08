@@ -8,7 +8,7 @@ import { useLazyGetMoviesQuery, useLazyGetMoviesNoParseQuery, rtkApi, benchmarkS
 
 
 import { FocusContext, init, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FetchService, FetchServicenoParse } from "./Services/FetchService";
 import { AxiosService, AxiosServiceNoParse } from "./Services/AxiosService";
 import { RedAxiosService, RedAxiosServiceNoParse } from "./Services/RedAxiosService";
@@ -20,9 +20,12 @@ init({ debug: false, visualDebug: false });
 const App = () => {
   const { ref } = useFocusable({ trackChildren: true });
 
+  const [rerender, setRender] = useState<number>(1)
   const btn1 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runAxios();
+
     },
     onArrowPress: () => {
       return true
@@ -30,6 +33,7 @@ const App = () => {
   });
   const btn2 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runAxiosNoJson();
     },
     onArrowPress: () => {
@@ -38,6 +42,7 @@ const App = () => {
   });
   const btn3 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runKy();
     },
     onArrowPress: () => {
@@ -46,6 +51,7 @@ const App = () => {
   });
   const btn4 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runKyNoparse();
     },
     onArrowPress: () => {
@@ -54,6 +60,7 @@ const App = () => {
   });
   const btn5 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runRedAxios();
     },
     onArrowPress: () => {
@@ -62,6 +69,7 @@ const App = () => {
   });
   const btn6 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runredAxiosNoJson();
     },
     onArrowPress: () => {
@@ -70,6 +78,7 @@ const App = () => {
   });
   const btn7 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runRTKQ();
     },
     onArrowPress: () => {
@@ -78,6 +87,7 @@ const App = () => {
   });
   const btn8 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runRTKQRaw();
     },
     onArrowPress: () => {
@@ -86,6 +96,7 @@ const App = () => {
   });
   const btn9 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runWretch();
     },
     onArrowPress: () => {
@@ -94,6 +105,7 @@ const App = () => {
   });
   const btn10 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runWretchNoParse();
     },
     onArrowPress: () => {
@@ -102,6 +114,7 @@ const App = () => {
   });
   const btn11 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runFetch();
     },
     onArrowPress: () => {
@@ -110,6 +123,7 @@ const App = () => {
   });
   const btn12 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runXml();
     },
     onArrowPress: () => {
@@ -119,6 +133,7 @@ const App = () => {
 
   const btn13 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runXmlNoparse();
     },
     onArrowPress: () => {
@@ -127,6 +142,7 @@ const App = () => {
   });
   const btn14 = useFocusable({
     onEnterPress: () => {
+      setRender(rerender + 1);
       runFetchNoParse();
     },
     onArrowPress: () => {
@@ -487,7 +503,7 @@ const App = () => {
 
       </FocusContext.Provider>
       <div>
-        <MovieRail ></MovieRail>
+        <MovieRail key={rerender} ></MovieRail>
 
       </div>
     </div>

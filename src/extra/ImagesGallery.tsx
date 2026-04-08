@@ -6,7 +6,7 @@
 
 // import Cards from "./Card";
 
-const MovieRail = () => {
+const MovieRail = (props:{key:number}) => {
 
     // const [movies, setMoiveis] = useState<any[] | null>(null);
     // const GetData = async () => {
@@ -32,7 +32,7 @@ const MovieRail = () => {
     //     })
     //     console.log(Data)
     // }, [movies])
-
+    
     const imageList = [
         "https://entertainment.enlight.diagnal.com/resources/images/eyJrZXkiOiJodHRwczovL2RlbW8uZW5oYW5jZS5kaWFnbmFsLmNvbS9yZXNvdXJjZXMvaW1hZ2VzL2xpbmsvNzlhYTY1MjctM2ViYi0zYmE3LTgxYjUtNzY5ZWU2MDRjOGRjLzVjZmY0YWNlLTJjNTItNTc5ZS1iZjBjLWI1NjJkM2EzNDliMC8xNzY3OTUyNzkxNzA2LzA6MDoyMDQ6MzYwLzM2MCo2NDAvYjlhZmNkYmQtODkxNS00MTVlLWFkZmYtMDJmM2M2YTAxMjRjX3NjcmVlbnNob3QtMjAyNS0xMS0yNy1hdC00LnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MzYwLCJoZWlnaHQiOjY0MH0sImpwZWciOnsicXVhbGl0eSI6NTB9fX0=",
         "https://entertainment.enlight.diagnal.com/resources/images/eyJrZXkiOiJodHRwczovL2RlbW8uZW5oYW5jZS5kaWFnbmFsLmNvbS9yZXNvdXJjZXMvaW1hZ2VzL2xpbmsvNzlhYTY1MjctM2ViYi0zYmE3LTgxYjUtNzY5ZWU2MDRjOGRjLzVjZmY0YWNlLTJjNTItNTc5ZS1iZjBjLWI1NjJkM2EzNDliMC8xNzY3OTUyNzkxNzA2LzA6MDoyMDQ6MzYwLzQ4MCo4NTMvYjlhZmNkYmQtODkxNS00MTVlLWFkZmYtMDJmM2M2YTAxMjRjX3NjcmVlbnNob3QtMjAyNS0xMS0yNy1hdC00LnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NDgwLCJoZWlnaHQiOjg1M30sImpwZWciOnsicXVhbGl0eSI6NTB9fX0=",
@@ -139,6 +139,7 @@ const MovieRail = () => {
     return (
         <div
             className="movielist-container"
+            key={props.key}
             style={{ padding: "20px", display: "flex", flex: "column", flexWrap: "wrap" }}>
             {imageList?.map((url: string, index: number) => (
                 <div className="movielist-item" key={index}>
