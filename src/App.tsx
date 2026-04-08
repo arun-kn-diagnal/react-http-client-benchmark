@@ -15,6 +15,7 @@ import { RedAxiosService, RedAxiosServiceNoParse } from "./Services/RedAxiosServ
 import { kyService, kyServicenoParse } from "./Services/kyService";
 import { wretchService, wretchServicenoParse } from "./Services/WretchService";
 // import { useEffect } from "react";
+import MovieRail from "./extra/ImagesGallery";
 init({ debug: false, visualDebug: false });
 const App = () => {
   const { ref } = useFocusable({ trackChildren: true });
@@ -277,7 +278,7 @@ const App = () => {
   //   runKy();
   // },[])
   return (
-    <div ref={ref} style={{ padding: "20px", display: "flex", gap: "10px" }}>
+    <div ref={ref} >
       <FocusContext.Provider value="SN:ROOT">
         <div style={{ display: "flex", flex: "row", flexWrap: "wrap" }}>
           <button
@@ -483,7 +484,12 @@ const App = () => {
             Ryn XMLhttprequest (no parsing)
           </button>
         </div>
+
       </FocusContext.Provider>
+      <div>
+        <MovieRail ></MovieRail>
+
+      </div>
     </div>
   );
 };
