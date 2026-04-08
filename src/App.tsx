@@ -17,13 +17,13 @@ import { wretchService, wretchServicenoParse } from "./Services/WretchService";
 // import { useEffect } from "react";
 init({ debug: false, visualDebug: false });
 const App = () => {
-  const { ref, focused } = useFocusable({ trackChildren: true });
+  const { ref } = useFocusable({ trackChildren: true });
 
   const btn1 = useFocusable({
     onEnterPress: () => {
       runAxios();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true
     },
   });
@@ -31,7 +31,7 @@ const App = () => {
     onEnterPress: () => {
       runAxiosNoJson();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -39,7 +39,7 @@ const App = () => {
     onEnterPress: () => {
       runKy();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -47,7 +47,7 @@ const App = () => {
     onEnterPress: () => {
       runKyNoparse();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -55,7 +55,7 @@ const App = () => {
     onEnterPress: () => {
       runRedAxios();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -63,7 +63,7 @@ const App = () => {
     onEnterPress: () => {
       runredAxiosNoJson();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -71,7 +71,7 @@ const App = () => {
     onEnterPress: () => {
       runRTKQ();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -79,7 +79,7 @@ const App = () => {
     onEnterPress: () => {
       runRTKQRaw();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -87,7 +87,7 @@ const App = () => {
     onEnterPress: () => {
       runWretch();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -95,7 +95,7 @@ const App = () => {
     onEnterPress: () => {
       runWretchNoParse();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -103,7 +103,7 @@ const App = () => {
     onEnterPress: () => {
       runFetch();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -111,7 +111,7 @@ const App = () => {
     onEnterPress: () => {
       runXml();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -120,7 +120,7 @@ const App = () => {
     onEnterPress: () => {
       runXmlNoparse();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -128,7 +128,7 @@ const App = () => {
     onEnterPress: () => {
       runFetchNoParse();
     },
-    onArrowPress: (direction) => {
+    onArrowPress: () => {
       return true;
     },
   });
@@ -279,7 +279,7 @@ const App = () => {
   return (
     <div ref={ref} style={{ padding: "20px", display: "flex", gap: "10px" }}>
       <FocusContext.Provider value="SN:ROOT">
-        <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", flex: "row", flexWrap: "wrap" }}>
           <button
             style={{
               padding: "16px 32px",
